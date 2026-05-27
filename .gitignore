@@ -1,0 +1,27 @@
+# Dependencies
+src/vendor/
+
+# Environment
+src/.env
+src/.env.backup
+
+# Laravel generated
+src/storage/*.key
+src/storage/api-docs/
+src/bootstrap/cache/*.php
+src/.phpunit.result.cache
+src/public/hot
+src/public/storage
+
+# Docker volumes
+postgres_data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
