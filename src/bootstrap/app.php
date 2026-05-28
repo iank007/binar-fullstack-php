@@ -13,7 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         apiPrefix: 'api',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->api(prepend: [
+            \App\Http\Middleware\ForceJsonResponse::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (ValidationException $e) {
@@ -24,7 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
             );
         });
 
-        $exceptions->render(function (AuthenticationException $e) {
+        $exceptions->render(function (AuthenticationException $e, \Illuminate\Http\Request $request) {
             return ApiResponse::error(message: 'Unauthenticated.', status: 401);
         });
 

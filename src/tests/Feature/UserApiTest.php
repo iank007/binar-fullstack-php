@@ -22,7 +22,7 @@ class UserApiTest extends TestCase
         $response = $this->postJson('/api/users', [
             'name'     => 'Test User',
             'email'    => 'test@example.com',
-            'password' => 'password123',
+            'password' => 'Password1!',
         ]);
 
         $response->assertStatus(201)
@@ -41,7 +41,7 @@ class UserApiTest extends TestCase
         $this->postJson('/api/users', [
             'name'     => 'Test User',
             'email'    => 'test@example.com',
-            'password' => 'password123',
+            'password' => 'Password1!',
         ]);
 
         Mail::assertSent(\App\Mail\WelcomeUserMail::class);
@@ -54,7 +54,7 @@ class UserApiTest extends TestCase
     {
         $response = $this->postJson('/api/users', [
             'name'     => 'Test User',
-            'password' => 'password123',
+            'password' => 'Password1!',
         ]);
 
         $response->assertStatus(422)
@@ -71,7 +71,7 @@ class UserApiTest extends TestCase
         $response = $this->postJson('/api/users', [
             'name'     => 'Another User',
             'email'    => 'taken@example.com',
-            'password' => 'password123',
+            'password' => 'Password1!',
         ]);
 
         $response->assertStatus(422)
@@ -84,11 +84,35 @@ class UserApiTest extends TestCase
         $response = $this->postJson('/api/users', [
             'name'     => 'Test User',
             'email'    => 'test@example.com',
-            'password' => 'short',
+            'password' => 'Ab1!',
         ]);
 
         $response->assertStatus(422)
             ->assertJsonStructure(['errors' => ['password']]);
+    }
+
+    public function test_create_user_returns_422_when_password_lacks_complexity(): void
+    {
+        $response = $this->postJson('/api/users', [
+            'name'     => 'Test User',
+            'email'    => 'test@example.com',
+            'password' => 'password123',
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['password']]);
+    }
+
+    public function test_create_user_returns_422_when_name_contains_numbers(): void
+    {
+        $response = $this->postJson('/api/users', [
+            'name'     => 'User123',
+            'email'    => 'test@example.com',
+            'password' => 'Password1!',
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['name']]);
     }
 
     // GET /api/users — unauthenticated

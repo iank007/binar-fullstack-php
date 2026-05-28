@@ -37,7 +37,7 @@ code clarity, naming, and maintainability than correctness of the final output.
 - [x] Model: `Order` with `belongsTo(User)`
 
 ### POST /api/users — Create User
-- [ ] Form Request: `CreateUserRequest` — update validation rules per spec (name regex, password min:8 max:20 complexity, email max:255)
+- [x] Form Request: `CreateUserRequest` — update validation rules per spec (name regex, password min:8 max:20 complexity, email max:255)
 - [x] Service: `UserService@createUser` — hash password, insert record
 - [x] Mailable: `WelcomeUserMail` — confirmation email to new user
 - [x] Mailable: `NewUserAdminNotificationMail` — notify admin
